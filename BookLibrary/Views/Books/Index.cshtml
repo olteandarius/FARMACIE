@@ -1,0 +1,82 @@
+﻿@model IEnumerable<BookLibrary.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Security.Claims;
+
+
+<h2>Index</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <p>
+        Find by author: @Html.TextBox("authorSearch")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<p>
+    <a asp asp-action="MinMaxPricesPerYearReport">View prices per year report.</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublicationYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicationYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+
+                    @if (User.IsUser(item.Owner) || User.IsAdmin())
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @:|
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (User.IsUser(item.Owner) || User.IsAdmin())
+                    {
+                        @:|
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

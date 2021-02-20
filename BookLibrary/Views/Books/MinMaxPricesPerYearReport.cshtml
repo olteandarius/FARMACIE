@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BookLibrary.Models.MinMaxPricesPerYearViewModel>
+
+@{
+    ViewData["Title"] = "Min and max prices per year report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Min and max prices per year report</h2>
+
+<p>
+    <a asp asp-action="Index">Back to main page.</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PublicationYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinPriceTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxPriceTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.PublicationYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.MinPriceTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.MinPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.MaxPriceTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.MaxPrice)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

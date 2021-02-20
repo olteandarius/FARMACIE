@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BookLibrary.Models.Rental>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Security.Claims;
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalDuration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentalDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentalDuration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.Name)
+                </td>
+                <td>
+                    @if (User.IsLoggedIn())
+                    {
+                        if (item.RentalDuration == null)
+                        {
+                            <a asp-action="Return" asp-route-id="@item.Id">Mark Returned</a>
+                        }
+                        else
+                        {
+                            @:Book was returned on @item.RentalDate.AddDays(item.RentalDuration.Value).ToString("dd.MM.yyyy").
+                        }
+                    }
+                </td>
+            </tr>
+}
+    </tbody>
+</table>
